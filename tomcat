@@ -1,15 +1,20 @@
-dnf install java-21-amazon-corretto -y
+dnf install java-21-amazon-corretto wget -y
 
-wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.57/bin/apache-tomcat-10.1.57.tar.gz
+wget https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.14/bin/apache-tomcat-11.0.14.tar.gz
 
-tar -zxvf apache-tomcat-10.1.57.tar.gz
+tar -zxvf apache-tomcat-11.0.14.tar.gz
 
 sed -i '/<\/tomcat-users>/i\
 <role rolename="manager-gui"/>\
 <role rolename="manager-script"/>\
-<user username="tomcat" password="root1234" roles="manager-gui,manager-script"/>' apache-tomcat-10.1.57/conf/tomcat-users.xml
+<user username="tomcat" password="root123456" roles="manager-gui,manager-script"/>' apache-tomcat-11.0.14/conf/tomcat-users.xml
 
-sed -i '21d' apache-tomcat-10.1.57/webapps/manager/META-INF/context.xml
-sed -i '22d' apache-tomcat-10.1.57/webapps/manager/META-INF/context.xml
+cat > apache-tomcat-11.0.14/webapps/manager/META-INF/context.xml <<'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<Context privileged="true" antiResourceLocking="false">
+</Context>
+EOF
 
-sh apache-tomcat-10.1.57/bin/startup.sh
+chmod +x apache-tomcat-11.0.14/bin/*.sh
+
+sh apache-tomcat-11.0.14/bin/startup.sh
