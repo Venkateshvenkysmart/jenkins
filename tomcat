@@ -18,3 +18,5 @@ EOF
 chmod +x apache-tomcat-11.0.14/bin/*.sh
 
 sh apache-tomcat-11.0.14/bin/startup.sh
+
+#port number 8080
