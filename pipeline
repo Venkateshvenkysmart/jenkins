@@ -21,6 +21,14 @@ pipeline {
             }
         }
 
+        stage('sonarqube deploy') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+                }
+            }
+        }
+
         stage('Artifacts') {
             steps {
                 sh 'mvn clean package'
