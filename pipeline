@@ -34,6 +34,27 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+        stage('Upload to S3') {
+    steps {
+        s3Upload(
+            profileName: 's3',
+            entries: [
+                [
+                    sourceFile: '**/*.war',
+                    bucket: 'jen-son-bkt/',
+                    storageClass: 'STANDARD',
+                    selectedRegion: 'ap-south-1',
+                    useServerSideEncryption: true
+                ]
+            ],
+            userMetadata: [],
+            dontWaitForConcurrentBuildCompletion: false,
+            consoleLogLevel: 'INFO',
+            pluginFailureResultConstraint: 'FAILURE',
+            dontSetBuildResultOnFailure: false
+        )
+    }
+}
 
         stage('Deploy') {
             steps {
